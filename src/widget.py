@@ -1,7 +1,13 @@
 from src.masks import mask_card_number, mask_account_number
 
 
-def card_information(type_and_number: str | list[str], account_number: str) -> str:
+def card_information(type_and_number: str | list[str], account_number) -> str:
+    """
+    Принимает на вход строку информацией тип карты/счета и номер карты/счета
+    :param type_and_number:
+    :param account_number:
+    :return: Возвращает эту строку с замаскированным номером карты/счета.
+    """
     split_list = type_and_number.split()
     split_account = account_number.split()
     account = mask_account_number(split_account[-1])
@@ -20,4 +26,11 @@ def card_information(type_and_number: str | list[str], account_number: str) -> s
     else:
         return 'Не верно введён номер карты или счёта'
 
-print(card_information("Visa 1234123412341234", "Счёт 12341234123412341234"))
+
+def input_date(date: str) -> str:
+    """
+    Функция принимает на вход дату и время
+    :param date: дату и время
+    :return: Возвращает дату ДД.ММ.ГГГГ
+    """
+    return f"{date[8:10]}.{date[5:7]}.{date[:4]}"
