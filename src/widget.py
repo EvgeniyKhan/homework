@@ -1,36 +1,24 @@
 from src.masks import mask_card_number, mask_account_number
 
 
-def card_information(type_and_number: str | list[str], account_number) -> str:
+def card_information(masking: str) -> str:
     """
     Принимает на вход строку информацией тип карты/счета и номер карты/счета
-    :param type_and_number:
-    :param account_number:
     :return: Возвращает эту строку с замаскированным номером карты/счета.
     """
-    split_list = type_and_number.split()
-    split_account = account_number.split()
-    account = mask_account_number(split_account[-1])
-    numbers_account = split_account[:1]
-    one_line = ''.join(numbers_account)
-    if len(split_list) == 3:
-        only_number = mask_card_number(split_list[-1])
-        only_type = split_list[:2]
-        only_card_number = ' '.join(only_type)
-        return f'{only_card_number} {only_number} \n{one_line} {account}'
-    elif len(split_list) == 2:
-        only_number = mask_card_number(split_list[-1])
-        only_type = split_list[:1]
-        only_card_number = ' '.join(only_type)
-        return f'{only_card_number} {only_number} \n{one_line} {account}'
-    else:
-        return 'Не верно введён номер карты или счёта'
+    list_mask = masking.split()
+    join_mask = ' '.join(list_mask[:-1])
+
+    if 'счет' == list_mask[0].lower():
+        return f'{join_mask} {mask_account_number(list_mask[-1])}'
+    return f'{join_mask} {mask_card_number(list_mask[-1])}'
 
 
-def input_date(date: str) -> str:
+def format_date(input_date: str) -> str:
     """
-    Функция принимает на вход дату и время
-    :param date: дату и время
-    :return: Возвращает дату ДД.ММ.ГГГГ
+    Функция, которая принимает на вход строку, вида "2018-07-11T02:26:18.671407"
+    :return: возвращает строку с датой в виде "11.07.2018"
     """
-    return f"{date[8:10]}.{date[5:7]}.{date[:4]}"
+    formatted_date = input_date.split('T')[0]
+    year, month, day = formatted_date.split('-')
+    return f"{day}.{month}.{year}"
