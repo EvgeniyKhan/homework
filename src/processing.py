@@ -3,9 +3,10 @@ from typing import List, Optional, Dict
 
 def filter_by_state(data: List[Dict[str, str]], state: Optional[str] = "EXECUTED") -> List[Dict[str, str]]:
     """
-    Функция, которая принимает на вход список словарей и значение для ключа state (опциональный параметр со значением по умолчанию
+    Функция, которая принимает на вход список словарей и значение для ключа state (опциональный параметр со значением
+     по умолчанию
     EXECUTED)
-    :return: Возвращает новый список, содержащий словари с ключём state
+    :return: Возвращает новый список, содержащий словари с ключом state
     """
     filter_data = list(filter(lambda x: x.get("state") == state, data))
     return filter_data
