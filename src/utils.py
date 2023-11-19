@@ -1,5 +1,14 @@
 import json
 import os
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+file_handler = logging.FileHandler("utils.log", encoding="utf-8")
+file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
 
 
 def load_transactions(file_path):
@@ -17,12 +26,16 @@ def load_transactions(file_path):
             data = json.load(file)
 
         if not isinstance(data, list):
-            print(f"Файл {file_path} не содержит список транзакций")
+            logger.error(f"Файл {file_path} не содержит список транзакций")
             return []
+
         return data
+    except FileNotFoundError as error:
+        logger.error(f"Файл {file_path} не найден: {error}")
+        return []
 
     except json.JSONDecodeError as error:
-        print(f"Ошибка при декодировании JSON в файле{file_path}: {error}")
+        logger.error(f"Ошибка при декодировании JSON в файле{file_path}: {error}")
         return []
 
 
@@ -36,9 +49,11 @@ def convert_to_rubles(transaction):
     currency = transaction.get("currency")
 
     if amount is None:
+        logger.error("Транзакция не содержит 'amount'")
         raise ValueError("Транзакция не содержит 'amount'")
 
     if currency == "RUB":
         return float(amount)
     else:
+        logger.error("Транзакция выполнена не в рублях. Укажите транзакцию в рублях")
         raise ValueError("Транзакция выполнена не в рублях. Укажите транзакцию в рублях")
