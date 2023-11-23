@@ -1,6 +1,5 @@
-import csv
-
 import pandas as pd
+import csv
 
 
 def read_csv(file_path):
