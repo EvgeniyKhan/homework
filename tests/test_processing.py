@@ -1,6 +1,6 @@
 import pytest
 
-from src.processing import filter_by_state, sorted_data
+from src.processing import filter_by_state, sort_by_date
 
 
 @pytest.fixture()
@@ -71,5 +71,5 @@ def sample_date():
     ],
 )
 def test_sorted_data(sample_date, reverse, expected):
-    result = sorted_data(sample_date, reverse)
+    result = sort_by_date(sample_date, reverse)
     assert result == expected
