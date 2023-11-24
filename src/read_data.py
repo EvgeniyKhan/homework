@@ -1,6 +1,8 @@
 import pandas as pd
 import csv
 
+from data.path import file_path_csv
+
 
 def read_csv(file_path):
     """
